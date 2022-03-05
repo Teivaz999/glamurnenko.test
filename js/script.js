@@ -1,3 +1,4 @@
+
 ///----------hamburger-menu-----------------------------///
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -17,9 +18,9 @@ window.addEventListener('DOMContentLoaded', () => {
           hamburger.classList.toggle('hamburger_active');
           menu.classList.toggle('top-menu_active');
           wrap.classList.toggle('top-menu__wrap_active');
-      })
-  })
-});
+      });
+  });
+
 
 ///------------------menu-fixed---------------------///
 
@@ -52,18 +53,76 @@ $(document).ready(function(){
         return false;
 });
 
+///--------------card-trainings-----------------///
+class Card {
+  constructor(title, questions, oldPrice, parentSel){
+    this.title = title;
+    this.questions = questions;
+    this.oldPrice = oldPrice;
+    this.price = 85;
+    this.parent = document.querySelector(parentSel);
+    this.makePrice();
+  }
+
+  makePrice(){
+    this.price = Math.round(this.oldPrice/100 * this.price);
+     
+  }
+
+  renderMain(){
+    const elementCard = document.createElement('div');
+    elementCard.classList.add('order__pack');
+    elementCard.innerHTML = `<div class="order__subtitle">Пакет</div>
+    <div class="order__name">${this.title}</div>
+    <div class="order__descr">Срок: <p>в пределах 24 часов</p>Вопросов/комплектов на оценку: <p>${this.questions}</p></div>
+    <div class="order__bottom">
+      <div class="order__price">${this.oldPrice}</div>
+      <div class="order__newprice">${this.price + '₽'}</div>
+      <button class="order__btn">Заказать</button>
+    </div>`;
+    this.parent.append(elementCard);
+  }
+
+  /* renderForm(){
+
+  } */
+}
+
+new Card(
+  "«Попробовать»",
+  "5 ваших луков или 5 вопросов",
+  1250,
+  ".order__wrapper"
+).renderMain();
+
+new Card(
+  "«1 день»",
+  "до 100",
+  3950,
+  ".order__wrapper"
+).renderMain();
+
+new Card(
+  "«1 месяц»",
+  "неограниченно",
+  11990,
+  ".order__wrapper"
+).renderMain();
+
+
+
 ///--------------modal-window-----------------///
 
 $('.modal__close').on('click', function (){
     $('.overlay, .modal__forms').fadeOut();
-  })
+  });
   
   $('.buy_btn').each(function(i) {
     $(this).on('click', function() {
       $('#buy .modal__pack').text('Пакет ' + $('.packs-descr__name').eq(i).text());
       $('#buy .modal__descr').text($('.order').eq(i).text());
       $('.overlay, #buy').fadeIn('slow');
-    })
+    });
   });
 
   $('.order__btn').each(function(i) {
@@ -71,7 +130,7 @@ $('.modal__close').on('click', function (){
       $('#buy .modal__pack').text('Пакет ' + $('.order__name').eq(i).text());
       $('#buy .modal__descr').text($('.order__newprice').eq(i).text());
       $('.overlay, #buy').fadeIn('slow');
-    })
+    });
   });
 
 ///--------------animate-settings-----------------/// 
@@ -103,6 +162,9 @@ function valideForms(form) {
   });
 }
 valideForms('#buy form');
+
+
+});
 
 
 
